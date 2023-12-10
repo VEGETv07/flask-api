@@ -1,3 +1,6 @@
+.app_body {
+  width: 100%;
+}
 .search {
   /* width: 80%; */
   padding: 2rem;
@@ -15,45 +18,62 @@
   width: 100%;
 }
 .search_bar {
-  height: 3rem;
+  height: 3.5rem;
   padding: 20px;
   font-size: 1rem;
-  border-radius: 15px 0px 0px 15px;
+  border-radius: 5px 0px 0px 5px;
   outline: none;
-  border: 2px solid #123;
+  border: 2px solid rgb(30, 55, 81);
   box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
   width: 40%;
   transition: ease 0.3s;
 }
 .search_btn {
-  background-color: #123;
+  background-color: rgb(32, 48, 62);
   color: white;
   padding: 0px 10px;
-  border-radius: 0px 15px 15px 0px;
+  border-radius: 0px 5px 5px 0px;
   border: none;
   box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
   width: 15%;
   cursor: pointer;
   transition: ease 0.3s;
-}
-.search_bar:hover {
-  border: 2px solid rgb(28, 51, 74);
-}
-.search_btn:hover {
-  background-color: rgb(28, 51, 74);
+  font-size: 1.1rem;
 }
 
+.search_btn:hover {
+  background-color: rgb(22, 41, 61);
+}
+
+.error {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.error p {
+  text-align: center;
+  background-color: #fca5a5;
+  padding: 20px 30px;
+  border-radius: 5px;
+}
+.block_data {
+  background-color: transparent;
+  border-radius: 5px;
+}
 .data {
   display: flex;
   align-items: center;
   list-style: none;
   color: #123;
-  background-color: antiquewhite;
   text-align: center;
   padding-left: 2rem;
-  background-color: rgb(221, 221, 221);
-  border-radius: 15px;
+  background-color: rgb(231, 231, 231);
+  border-radius: 5px;
   margin-top: 15px;
+  transition: ease 0.3s;
+}
+.data:hover {
+  background-color: rgb(221, 221, 221);
 }
 .data li {
   align-items: center;
@@ -68,20 +88,26 @@
   font-weight: 500;
   text-align: center;
 }
+
+.city h3::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: #123;
+}
 .city sub {
   font-weight: 400;
 }
-.block_data {
-  background-color: rgb(231, 231, 231);
-  border-radius: 5px;
-}
+
 .nav {
-  background-color: white;
+  background-color: transparent;
   width: 100%;
+  border-radius: 5px 0 0 0;
+  width: 80%;
 }
 .nav ul {
   display: flex;
-  /* padding-left: 30px; */
   list-style: none;
 }
 .radius-left {
@@ -95,17 +121,33 @@
   cursor: pointer;
 }
 .nav_item {
-  background-color: white;
+  background-color: #0e7490;
+  color: white;
 }
 .bg_nav_item {
   background-color: rgb(231, 231, 231);
+  color: #123;
 }
+#graph {
+  display: flex;
+  justify-content: center;
+  text-transform: uppercase;
+  font-size: 1.3rem;
+  font-weight: 500;
+  text-align: center;
+}
+#graph sub {
+  font-weight: 400;
+}
+
 #today,
 #forecast,
 #week,
 #graph {
   padding-top: 30px;
   padding-bottom: 30px;
+  background-color: rgb(231, 231, 231);
+  border-radius: 0px 5px 5px 5px;
 }
 .no_data {
   text-align: center;

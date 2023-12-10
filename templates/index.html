@@ -1,128 +1,130 @@
 {% extends 'base.html'%} {% block body %}
 
-<div class="search">
-  <form method="post" action="{{ url_for('search') }}">
-    <label for="city" class="search_label"
-      >Search for weather in your City:</label
-    >
-    <div class="search_items">
-      <input class="search_bar" type="text" id="city" name="city" required />
-      <button type="submit" class="search_btn">Get Weather</button>
-    </div>
-  </form>
-</div>
-<div class="block_data">
-  <div class="nav">
-    <ul>
-      <li
-        class="bg_nav_item nav_item radius-left"
-        onclick="showDiv('today');bg('td')"
-        id="td"
+<div class="app_body">
+  <div class="search">
+    <form method="post" action="{{ url_for('search') }}">
+      <label for="city" class="search_label"
+        >Search for weather in your City:</label
       >
-        Today
-      </li>
-      <li class="nav_item" onclick="showDiv('forecast');bg('fr')" id="fr">
-        Forecast
-      </li>
-      <li class="nav_item" onclick="showDiv('week');bg('wk')" id="wk">Week</li>
-      <li
-        class="nav_item radius-right"
-        onclick="showDiv('graph');bg('gr')"
-        id="gr"
-      >
-        Graph
-      </li>
-    </ul>
-  </div>
-  <div id="today" style="display: block">
-    {% if data %} {% for item in data %}
-    <ul class="data">
-      <li class="city">
-        {{ item.city }} <sub>{{ item.api_response.location.country }}</sub>
-      </li>
-      <li>
-        <img
-          src="{{ item.api_response.current.condition.icon }}"
-          alt="Weather Icon"
-        />
-      </li>
-      <li>
-        Temperature min : {{
-        item.api_response.forecast.forecastday[0].day.mintemp_c }}
-      </li>
-      <li>
-        Temperature MAX : {{
-        item.api_response.forecast.forecastday[0].day.maxtemp_c }}
-      </li>
-      <li>
-        Humidity : {{ item.api_response.forecast.forecastday[0].day.avghumidity
-        }}
-      </li>
-      <li></li>
-    </ul>
-    {% endfor %} {% else %}
-    <p class="no_data">No forecast data available for the specified city.</p>
-    {% endif %}
-  </div>
-  <div id="forecast" style="display: none">
-    {% if data %} {% for items in data %}
-    <div class="city">
-      <div>
-        <h3>
-          {{ items.api_response.location.name }}
-          <sub>{{ items.api_response.location.country }}</sub>
-        </h3>
+      <div class="search_items">
+        <input class="search_bar" type="text" id="city" name="city" required />
+        <button type="submit" class="search_btn">Get Weather</button>
       </div>
-    </div>
-
-    {% for item in items.api_response.forecast.forecastday[0].hour %}
-    <ul class="data">
-      <li>Time : {{ item.time }}</li>
-      <li>
-        <img src="{{ item.condition.icon }}" alt="Weather Icon" />
-      </li>
-      <li>Temperature : {{ item.temp_c }}</li>
-      <li>Humidity : {{ item.humidity }}</li>
-      <li></li>
-    </ul>
-    {% endfor %} {% endfor %} {% else %}
-    <p class="no_data">No forecast data available for the specified city.</p>
-    {% endif %}
+    </form>
   </div>
-  <div id="week" style="display: none">
-    {% if data %} {% for items in data %}
-    <div class="city">
-      <div>
-        <h3>
-          {{ items.api_response.location.name }}
-          <sub>{{ items.api_response.location.country }}</sub>
-        </h3>
+  {% if error_message %}
+  <div class="error"><p>{{ error_message }}</p></div>
+  {% elif data %} {% for item in data %}
+  <div class="block_data">
+    <div class="nav">
+      <ul>
+        <li
+          class="bg_nav_item nav_item radius-left"
+          onclick="showDiv('today');bg('td')"
+          id="td"
+        >
+          Today
+        </li>
+        <li class="nav_item" onclick="showDiv('forecast');bg('fr')" id="fr">
+          24-hour
+        </li>
+        <li class="nav_item" onclick="showDiv('week');bg('wk')" id="wk">
+          Week
+        </li>
+        <li
+          class="nav_item radius-right"
+          onclick="showDiv('graph');bg('gr')"
+          id="gr"
+        >
+          Graph
+        </li>
+      </ul>
+    </div>
+    <div id="today" style="display: block">
+      <ul class="data">
+        <li class="city">
+          <h4>
+            {{ item.city }} <sub>{{ item.api_response.location.country }}</sub>
+          </h4>
+        </li>
+        <li>
+          <img
+            src="{{ item.api_response.current.condition.icon }}"
+            alt="Weather Icon"
+          />
+        </li>
+        <li>
+          Temperature min : {{
+          item.api_response.forecast.forecastday[0].day.mintemp_c }}
+        </li>
+        <li>
+          Temperature MAX : {{
+          item.api_response.forecast.forecastday[0].day.maxtemp_c }}
+        </li>
+        <li>
+          Humidity : {{
+          item.api_response.forecast.forecastday[0].day.avghumidity }}
+        </li>
+        <li></li>
+      </ul>
+    </div>
+    <div id="forecast" style="display: none">
+      <div class="city">
+        <div>
+          <h3>
+            {{ item.api_response.location.name }}
+            <sub>{{ item.api_response.location.country }}</sub>
+          </h3>
+        </div>
       </div>
-    </div>
 
-    {% for item in items.api_response.forecast.forecastday %}
-    <ul class="data">
-      <li>Date : {{ item.date }}</li>
-      <li>
-        <img src="{{ item.day.condition.icon }}" alt="Weather Icon" />
-      </li>
-      <li>Temperature min : {{ item.day.mintemp_c }}</li>
-      <li>Temperature max : {{ item.day.maxtemp_c }}</li>
-      <li>Humidity : {{ item.day.avghumidity }}</li>
-      <li></li>
-    </ul>
-    {% endfor %} {% endfor %} {% else %}
-    <p class="no_data">No forecast data available for the specified city.</p>
-    {% endif %}
-  </div>
-  <div id="graph" style="display: none">
-    {% if data and image %}
-    <div>
-      <img src="{{image}}" alt="Forecast Plot" style="width: 100%" />
-      {% else %}
-      <p class="no_data">No forecast data available for the specified city.</p>
+      {% for item in item.api_response.forecast.forecastday[0].hour %}
+      <ul class="data">
+        <li>Time : {{ item.time }}</li>
+        <li>
+          <img src="{{ item.condition.icon }}" alt="Weather Icon" />
+        </li>
+        <li>Temperature : {{ item.temp_c }}</li>
+        <li>Humidity : {{ item.humidity }}</li>
+        <li></li>
+      </ul>
+      {% endfor %}
     </div>
-    {% endif %}
+    <div id="week" style="display: none">
+      <div class="city">
+        <div>
+          <h3>
+            {{ item.api_response.location.name }}
+            <sub>{{ item.api_response.location.country }}</sub>
+          </h3>
+        </div>
+      </div>
+
+      {% for item in item.api_response.forecast.forecastday %}
+      <ul class="data">
+        <li>Date : {{ item.date }}</li>
+        <li>
+          <img src="{{ item.day.condition.icon }}" alt="Weather Icon" />
+        </li>
+        <li>Temperature min : {{ item.day.mintemp_c }}</li>
+        <li>Temperature max : {{ item.day.maxtemp_c }}</li>
+        <li>Humidity : {{ item.day.avghumidity }}</li>
+        <li></li>
+      </ul>
+      {% endfor %}
+    </div>
+    <div id="graph" style="display: none">
+      <h3>
+        {{ item.api_response.location.name }}
+        <sub>{{ item.api_response.location.country }}</sub>
+      </h3>
+      <div>
+        <img src="{{image}}" alt="Forecast Plot" style="width: 100%" />
+      </div>
+      {% endfor %} {% else %}
+      <h1>Search for your city...</h1>
+      {% endif %}
+    </div>
   </div>
 </div>
 
