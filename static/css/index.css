@@ -9,7 +9,7 @@
 .search_label {
   font-size: 2rem;
   font-weight: 700;
-  color: #123;
+  color: rgb(243, 243, 243);
 }
 .search_items {
   display: flex;
@@ -18,18 +18,19 @@
   width: 100%;
 }
 .search_bar {
+  background-color: rgb(234, 234, 234);
   height: 3.5rem;
   padding: 20px;
   font-size: 1rem;
   border-radius: 5px 0px 0px 5px;
   outline: none;
-  border: 2px solid rgb(30, 55, 81);
+  border: 2px solid #155e75;
   box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
   width: 40%;
   transition: ease 0.3s;
 }
 .search_btn {
-  background-color: rgb(32, 48, 62);
+  background-color: #155e75 !important;
   color: white;
   padding: 0px 10px;
   border-radius: 0px 5px 5px 0px;

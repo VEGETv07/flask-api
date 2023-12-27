@@ -7,15 +7,17 @@ from datetime import datetime
 
 app = Flask(__name__)
 # api_key
-api_key = 'db36df6e32e943a8b65204853233011'
+
+api_key = 'ab5dde60f7824f56a11103549231112'
 # connexion a MongoDB:
 client = MongoClient('mongodb://localhost:27017/')
 db = client['weather_db']
 collection = db['weather_collection']
-# Création d'une application web avec Flask
+
+# Création d'application 
 @app.route("/")
 def index():
-    return render_template('index.html', title= "Weather", style='forecast')
+    return render_template('index.html', title= "Weather", style='index')
 @app.route('/about')
 def about():
     return render_template('about.html', title='About', style='about')
@@ -29,7 +31,7 @@ def fetch_data_from_api(city):
 def error_city_not_exist(data):
     if 'error' in data:
         error_message = f'Error: {data["error"]["message"]}'
-        return True, render_template('index.html', error_message=error_message, style="forecast")
+        return True, render_template('index.html', error_message=error_message, style="index")
     return False, None
     
 def insert_data_into_mongodb(city, data):
@@ -40,6 +42,9 @@ def insert_data_into_mongodb(city, data):
             }
         # insert the data into mongoDB
         collection.insert_one(data_to_insert)
+
+
+
 
 def generate_plot(city):
     weather_data = list(collection.find({'city': city},{"_id":0}))
@@ -87,7 +92,7 @@ def search():
         city = request.form['city'].lower()
         data = fetch_data_from_api(city)
         # clear existing city
-        collection.delete_many({'city': city})
+        # collection.delete_many({'city': city})
         has_error, error_template = error_city_not_exist(data)
         if has_error:
             return error_template
@@ -98,7 +103,10 @@ def search():
         generate_plot(city)
 
 
-    return render_template('index.html', title="Search",  data=weather_data, style='forecast', image='static/forecast_plot.png')
+
+
+
+    return render_template('index.html', title="Search",  data=weather_data, style='index', image='static/forecast_plot.png', now=datetime.now())
 
 
 if __name__ == '__main__':
